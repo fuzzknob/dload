@@ -1,66 +1,63 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
+import { Box, Space, Text, Progress, Group } from '@mantine/core'
 
 import { TaskType } from '@/modules/task'
 
-import Container from '@/components/Container'
-import Text from '@/components/Text'
-
 import Actions from './TaskActions'
-import ProgressBar from '@/components/ProgressBar'
 
 interface TaskProps {
   type: TaskType
 }
 
 const Task: React.FC<TaskProps> = ({ type }) => {
-  const [progress, setProgress] = useState(0)
-
   return (
-    <Container
-      className="py-4 px-6 mb-4 flex flex-col justify-center"
-      color="secondary"
-      rounded
+    <Box
+      sx={(theme) => ({
+        padding: '15px 20px',
+        marginBottom: '15px',
+        borderRadius: '10px',
+        backgroundColor:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark[5]
+            : theme.colors.gray[1],
+      })}
     >
-      <div className="flex justify-between items-center">
-        <div className="flex flex-col">
-          <Text size="sm">ubuntu desktop.iso</Text>
+      <Group position="apart" align="center">
+        <div>
+          <Text size="md">ubuntu desktop.iso</Text>
           {type === 'QUEUE' && (
-            <Text size="xs" color="tertiary" italic>
+            <Text size="xs" color="dimmed" italic>
               https://codeload.github.com/vuejs/vue/tar.gz/refs/tags/v2
             </Text>
           )}
         </div>
         <Actions type={type} />
-      </div>
+      </Group>
       {['COPY', 'DOWNLOAD'].includes(type) && (
-        <div className="mt-1">
-          <Text size="xs" weight="thin" italic>
+        <>
+          <Space h="xs" />
+          <Text size="xs" color="dimmed" weight={300} italic>
             {type === 'COPY' ? 'Copying...' : 'Downloading...'}
           </Text>
-          <ProgressBar progress={progress} />
-          <div className="flex justify-between mt-3">
-            <Text size="xs" weight="light">
-              1.2GB / 3.0GB
-            </Text>
-            <div className="flex">
-              <Text
-                className="flex items-center"
-                italic
-                size="xs"
-                weight="light"
-              >
-                <IoArrowDownOutline className="text" />
-                8.7 MB/s
-              </Text>
-              <Text className="ml-4" size="xs" weight="light">
-                Remaining 3m 56s
-              </Text>
-            </div>
-          </div>
-        </div>
+          <Space h={5} />
+          <Progress value={20} color={type === 'DOWNLOAD' ? 'blue' : 'green'} />
+          <Space h="sm" />
+          <Group position="apart">
+            <Text size="xs">1.2GB / 3.0GB</Text>
+            <Group>
+              {type === 'DOWNLOAD' && (
+                <Group spacing={0}>
+                  <IoArrowDownOutline />
+                  <Text size="xs">8.7 MB/s</Text>
+                </Group>
+              )}
+              <Text size="xs">Remaining 3m 56s</Text>
+            </Group>
+          </Group>
+        </>
       )}
-    </Container>
+    </Box>
   )
 }
 

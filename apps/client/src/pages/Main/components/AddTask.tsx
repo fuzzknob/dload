@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
-
-import Modal from '@/components/Modal'
-import Input from '@/components/Input'
-import Select, { Option } from '@/components/Select'
-import Toggle from '@/components/Toggle'
+import React from 'react'
+import {
+  Box,
+  TextInput,
+  Modal,
+  Textarea,
+  Space,
+  Select,
+  Switch,
+  Group,
+  Button,
+} from '@mantine/core'
 
 interface AddTaskProps {
   visible: boolean
@@ -11,32 +17,44 @@ interface AddTaskProps {
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
-  const [value, setValue] = useState('')
-  const [option, setOption] = useState<Option>({
-    id: '1',
-    name: '/downloads',
-    value: '/downloads',
-  })
-  const [cacheValue, setCacheValue] = useState(false)
   return (
-    <Modal visible={visible} onClose={onClose}>
-      <Input
-        type="textarea"
-        value={value}
-        setValue={setValue}
-        placeholder="URL"
-      />
-      <Input label="Rename" value={value} setValue={setValue} />
-      <Select
-        label="Save To"
-        value={option}
-        onChange={(newOption) => setOption(newOption)}
-        options={[
-          { id: '1', name: '/downloads', value: '/downloads' },
-          { id: '2', name: '/d2', value: '/d2' },
-        ]}
-      />
-      <Toggle value={cacheValue} toggle={() => setCacheValue(!cacheValue)} />
+    <Modal
+      size="md"
+      opened={visible}
+      onClose={onClose}
+      radius="md"
+      centered
+      withCloseButton={false}
+    >
+      <Box
+        sx={{
+          padding: '10px 5px',
+        }}
+      >
+        <Textarea placeholder="Download url" />
+        <Space h="sm" />
+        <TextInput label="File Name" value="ubuntu.iso" />
+        <Space h="sm" />
+        <Select
+          label="Save To"
+          value="/downloads"
+          data={['/downloads', '/downloads2']}
+        />
+        <Space h="xl" />
+        <Switch label="Direct Download" />
+        <Space h="xl" />
+        <Group position="apart">
+          <Button onClick={onClose} variant="subtle" color="gray">
+            Cancel
+          </Button>
+          <Group>
+            <Button variant="light" color="gray">
+              Queue
+            </Button>
+            <Button>Download</Button>
+          </Group>
+        </Group>
+      </Box>
     </Modal>
   )
 }

@@ -1,12 +1,11 @@
 import React from 'react'
+import { Group, ActionIcon } from '@mantine/core'
 import {
   IoPauseOutline,
   IoLinkOutline,
   IoCreateOutline,
   IoCloseOutline,
 } from 'react-icons/io5'
-
-import Button from '@/components/IconButton'
 
 import { TaskType } from '@/modules/task'
 
@@ -20,33 +19,33 @@ const ACTION_MAP: Record<TaskType, ActionType[]> = {
 
 const PauseAction = () => {
   return (
-    <Button>
+    <ActionIcon>
       <IoPauseOutline size={16} />
-    </Button>
+    </ActionIcon>
   )
 }
 
 const CopyLinkAction = () => {
   return (
-    <Button>
-      <IoLinkOutline size={20} />
-    </Button>
+    <ActionIcon>
+      <IoLinkOutline size={18} />
+    </ActionIcon>
   )
 }
 
 const EditAction = () => {
   return (
-    <Button>
+    <ActionIcon>
       <IoCreateOutline size={18} />
-    </Button>
+    </ActionIcon>
   )
 }
 
 const CloseAction = () => {
   return (
-    <Button>
+    <ActionIcon>
       <IoCloseOutline size={20} />
-    </Button>
+    </ActionIcon>
   )
 }
 
@@ -57,16 +56,16 @@ interface TaskActionsProps {
 const TaskActions: React.FC<TaskActionsProps> = ({ type }) => {
   const actions = ACTION_MAP[type]
   return (
-    <div className="flex">
-      {actions.map((action) => (
-        <div className="flex pl-4" key={action}>
+    <Group spacing="xs">
+      {actions.map((action, index) => (
+        <div key={`${action}${index}`}>
           {action === 'PAUSE' && <PauseAction />}
           {action === 'COPY_LINK' && <CopyLinkAction />}
           {action === 'EDIT' && <EditAction />}
           {action === 'CLOSE' && <CloseAction />}
         </div>
       ))}
-    </div>
+    </Group>
   )
 }
 
