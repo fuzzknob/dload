@@ -67,7 +67,6 @@ env
 # next.js build output
 .next
 
-.vscode
 .parcel-cache
 .idea
 .DS_Store
