@@ -30,7 +30,7 @@ export function allTasks() {
 }
 
 export function getTask(id: string) {
-  return store.get()[id]
+  return store.get()?.[id]
 }
 
 export function getTaskByGID(gid: string) {
