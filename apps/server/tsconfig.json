@@ -10,7 +10,10 @@
     "lib": ["dom", "ES6"],
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules"]
