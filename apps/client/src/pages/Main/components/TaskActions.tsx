@@ -7,7 +7,7 @@ import {
   IoCloseOutline,
 } from 'react-icons/io5'
 
-import { TaskType } from '@/modules/task'
+import { TaskType } from '@/modules/tasks/task-store'
 
 type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'CLOSE'
 

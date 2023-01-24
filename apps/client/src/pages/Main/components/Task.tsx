@@ -2,7 +2,7 @@ import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
 
-import { TaskType } from '@/modules/task'
+import { TaskType } from '@/modules/tasks/task-store'
 
 import Actions from './TaskActions'
 
