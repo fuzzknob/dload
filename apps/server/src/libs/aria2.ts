@@ -6,6 +6,6 @@ const aria2 = new Aria2WebSocket.Client({
   path: '/jsonrpc',
 })
 
-export * from 'libaria2-ts'
+export { Adapter as AriaAdapter } from 'libaria2-ts'
 
 export default aria2

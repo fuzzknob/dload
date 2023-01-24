@@ -7,7 +7,7 @@ export interface Task {
   id: string
   name: string
   fileExtension: string
-  status: 'STALLED' | 'IN_PROGRESS' | 'PAUSED'
+  status: 'STALLED' | 'IN_PROGRESS' | 'PAUSED' | 'COMPLETED' | 'ERROR'
   url: string
   downloadPath: string
   type: TaskType
@@ -26,7 +26,7 @@ const store = new Store<Record<string, Task>>({
 })
 
 export function allTasks() {
-  return store.get()
+  return store.get() || {}
 }
 
 export function getTask(id: string) {

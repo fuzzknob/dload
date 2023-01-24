@@ -1,4 +1,4 @@
-import aria2 from '@/libs/aria2'
+import aria2, { AriaAdapter } from '@/libs/aria2'
 import {
   formatRemainingTime,
   bytesToSize,
@@ -12,6 +12,7 @@ import { waitToInitialize } from '@/libs/waitToInitialize'
 import * as taskStore from './task-store'
 
 export function initialize() {
+  // aria2.addListener('aria2.onDownloadStart')
   aria2.addListener('aria2.onDownloadComplete', (event) =>
     onDownloadComplete(event.gid),
   )
@@ -88,6 +89,7 @@ async function fetchAndUpdateAriaTasks() {
     if (!task) return
     taskStore.upsertTask({
       ...task,
+      status: getTaskStatus(item.status),
       progress: calculatePercentage(item.completedLength, item.totalLength),
       downloadSpeed: formatDownloadSpeed(item.downloadSpeed),
       remainingTime: calculateRemainingTime(
@@ -137,6 +139,21 @@ async function cleanDownload(path: string) {
   await removeFile(`${path}.aria2`)
 }
 
+function getTaskStatus(status: AriaAdapter.EAria2DownloadState) {
+  switch (status) {
+    case AriaAdapter.EAria2DownloadState.Active:
+      return 'IN_PROGRESS'
+    case AriaAdapter.EAria2DownloadState.Paused:
+      return 'PAUSED'
+    case AriaAdapter.EAria2DownloadState.Waiting:
+      return 'STALLED'
+    case AriaAdapter.EAria2DownloadState.Complete:
+      return 'COMPLETED'
+    default:
+      return 'ERROR'
+  }
+}
+
 function formatDownloadSpeed(downloadSpeed: bigint) {
   return downloadSpeed ? `${bytesToSize(downloadSpeed)}/s` : ''
 }
@@ -155,6 +172,7 @@ function calculateRemainingTime(
 async function watcher() {
   while (true) {
     await fetchAndUpdateAriaTasks()
+    // queue code here
     await wait(100)
   }
 }
