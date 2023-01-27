@@ -5,7 +5,6 @@ const functions: Fn[] = []
 let hasInitialized = false
 
 export function waitToInitialize(fn: Fn) {
-  console.log('waiting for the end to come')
   if (hasInitialized) {
     // eslint-disable-next-line
     fn()

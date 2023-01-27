@@ -1,0 +1,5 @@
+{
+  "extends": "@dload/tsconfig/node.json",
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}

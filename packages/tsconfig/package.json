@@ -1,0 +1,8 @@
+{
+  "name": "@dload/tsconfig",
+  "version": "0.0.1",
+  "files": [
+    "node.json",
+    "react.json"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "strict": true,
+    "moduleResolution": "node",
+    "lib": ["dom", "ES6"],
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "esModuleInterop": true
+  }
+}

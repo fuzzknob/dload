@@ -1,0 +1,12 @@
+{
+  "name": "@dload/aria",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "ts-node start.ts"
+  },
+  "devDependencies": {
+    "@dload/tsconfig": "*",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {}
+}
