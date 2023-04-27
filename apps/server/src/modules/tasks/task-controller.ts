@@ -8,7 +8,7 @@ const router = Router()
 
 io.on('connection', (socket) => {
   const tasks = taskStore.allTasks()
-  socket.emit(SOCKET_EVENTS.TASK_UPDATE, Object.values(tasks))
+  socket.emit(SOCKET_EVENTS.UPDATE_TASK, Object.values(tasks))
 })
 
 router.post('/add-task', async (req, res) => {

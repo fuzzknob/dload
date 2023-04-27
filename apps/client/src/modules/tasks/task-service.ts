@@ -12,7 +12,7 @@ export type TaskPayload = {
 }
 
 export const onTasksUpdate = (cb: (tasks: Task[]) => void) =>
-  socket.on(SOCKET_EVENTS.TASK_UPDATE, cb)
+  socket.on(SOCKET_EVENTS.UPDATE_TASK, cb)
 
 export const addTask = async (task: TaskPayload) =>
   request.post('/add-task', task)

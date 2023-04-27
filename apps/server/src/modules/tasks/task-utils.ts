@@ -13,7 +13,7 @@ import * as taskStore from './task-store'
 
 export function updateClientTasks() {
   const tasks = taskStore.allTasks()
-  io.emit(SOCKET_EVENTS.TASK_UPDATE, Object.values(tasks))
+  io.emit(SOCKET_EVENTS.UPDATE_TASK, Object.values(tasks))
 }
 
 export function formatDownloadSpeed(downloadSpeed: bigint) {
