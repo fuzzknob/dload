@@ -10,10 +10,17 @@ import {
   Group,
   Button,
 } from '@mantine/core'
-import { isNotEmpty, matches, useForm } from '@mantine/form'
+import { z } from 'zod'
+import { useForm, zodResolver } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
 
 import * as taskService from '@/modules/tasks/task-service'
+
+const addTaskSchema = z.object({
+  url: z.string().url(),
+  name: z.string().optional(),
+  downloadPath: z.string(),
+})
 
 type AddTaskProps = {
   visible: boolean
@@ -24,18 +31,18 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
   const [isSubmitting, setSubmitting] = useState(false)
   const [directDownload, setDirectDownload] = useState(true)
   const form = useForm({
+    validate: zodResolver(addTaskSchema),
     initialValues: {
       url: '',
       name: '',
       downloadPath: '/Users/fuzzknob/Downloads',
     },
-    validate: {
-      url: matches(
-        /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-        'Invalid URL',
-      ),
-      downloadPath: isNotEmpty(),
-    },
+    transformValues: (values) => ({
+      ...values,
+      url: values.url.trim(),
+      name: values.name.trim(),
+      downloadPath: values.downloadPath.trim(),
+    }),
   })
 
   async function handleSubmit(type: 'DOWNLOAD' | 'QUEUE') {
@@ -44,7 +51,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
     setSubmitting(true)
     try {
       await taskService.addTask({
-        ...form.values,
+        ...form.getTransformedValues(),
         type,
         directDownload,
       })
