@@ -1,14 +1,21 @@
-import aria2, { AriaAdapter } from '@/libs/aria2'
+import aria2 from '@/libs/aria2'
 import {
-  formatRemainingTime,
   bytesToSize,
   calculatePercentage,
   wait,
   generateUuid,
-  suppressError,
-  removeFile,
 } from '@/libs/utils'
+import {
+  getDetails,
+  cleanDownload,
+  stopDownload,
+  formatDownloadSpeed,
+  updateClientTasks,
+  calculateRemainingTime,
+  getTaskStatus,
+} from './task-utils'
 import { waitToInitialize } from '@/libs/waitToInitialize'
+
 import * as taskStore from './task-store'
 
 export function initialize() {
@@ -43,9 +50,8 @@ export async function addTask(payload: TaskPayload) {
     progress: 0,
     status: 'STALLED',
   }
-  if (payload.type === 'QUEUE') {
-    return taskStore.upsertTask(task)
-  }
+  taskStore.upsertTask(task)
+  if (payload.type === 'QUEUE') return
   return startDownload(task)
 }
 
@@ -54,7 +60,7 @@ export async function startDownload(task: taskStore.Task) {
     dir: task.downloadPath,
     out: task.name,
   })
-  return taskStore.upsertTask({
+  taskStore.upsertTask({
     ...task,
     gid,
   })
@@ -64,6 +70,7 @@ async function onDownloadError(gid: string) {
   const task = taskStore.getTaskByGID(gid)
   if (!task) return
   // notification code
+  console.log('TASK ERROR', gid)
   await removeDownload(task) // todo: work on a retry code
 }
 
@@ -71,13 +78,7 @@ function onDownloadComplete(gid: string) {
   const task = taskStore.getTaskByGID(gid)
   if (task) taskStore.deleteTask(task.id)
   // notification code
-}
-
-async function removeDownload(task: taskStore.Task) {
-  if (!task.gid) return
-  await stopDownload(task.gid)
-  await cleanDownload(`${task.downloadPath}/${task.name}`)
-  taskStore.deleteTask(task.id)
+  console.log('TASK COMPLETED', gid)
 }
 
 async function fetchAndUpdateAriaTasks() {
@@ -103,77 +104,19 @@ async function fetchAndUpdateAriaTasks() {
   })
 }
 
-async function getDetails(url: string) {
-  const gid = await aria2.addUri(url)
-  let tries = 20
-  let item = null
-  while (tries > 0) {
-    await wait(100)
-    item = await aria2.tellStatus(gid)
-    if (item.totalLength) break
-    tries -= 1
-  }
-  await stopDownload(gid)
-  if (item && item.totalLength) {
-    const { path } = item.files[0]
-    const name = path.substring(path.lastIndexOf('/') + 1)
-    await cleanDownload(path)
-    return {
-      name,
-      extension:
-        name.lastIndexOf('.') > 0
-          ? name.substring(name.lastIndexOf('.') + 1)
-          : '',
-    }
-  }
-  return { name: 'file', extension: '' }
-}
-
-async function stopDownload(gid: string) {
-  await suppressError(aria2.remove(gid))
-  await suppressError(aria2.removeDownloadResult(gid))
-}
-
-async function cleanDownload(path: string) {
-  await removeFile(path)
-  await removeFile(`${path}.aria2`)
-}
-
-function getTaskStatus(status: AriaAdapter.EAria2DownloadState) {
-  switch (status) {
-    case AriaAdapter.EAria2DownloadState.Active:
-      return 'IN_PROGRESS'
-    case AriaAdapter.EAria2DownloadState.Paused:
-      return 'PAUSED'
-    case AriaAdapter.EAria2DownloadState.Waiting:
-      return 'STALLED'
-    case AriaAdapter.EAria2DownloadState.Complete:
-      return 'COMPLETED'
-    default:
-      return 'ERROR'
-  }
-}
-
-function formatDownloadSpeed(downloadSpeed: bigint) {
-  return downloadSpeed ? `${bytesToSize(downloadSpeed)}/s` : ''
-}
-
-function calculateRemainingTime(
-  total: bigint,
-  completed: bigint,
-  downloadSpeed: bigint,
-) {
-  if (!total || !downloadSpeed) return ''
-  const remaining = total - completed
-  const seconds = Math.ceil(Number(remaining / downloadSpeed))
-  return formatRemainingTime(seconds)
+async function removeDownload(task: taskStore.Task) {
+  if (!task.gid) return
+  await stopDownload(task.gid)
+  await cleanDownload(`${task.downloadPath}/${task.name}`)
+  taskStore.deleteTask(task.id)
 }
 
 async function watcher() {
   while (true) {
     await fetchAndUpdateAriaTasks()
+    updateClientTasks()
     // queue code here
-    await wait(100)
+    await wait(500)
   }
 }
 
