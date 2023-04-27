@@ -45,6 +45,12 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
     }),
   })
 
+  function close() {
+    onClose()
+    form.reset()
+    setDirectDownload(false)
+  }
+
   async function handleSubmit(type: 'DOWNLOAD' | 'QUEUE') {
     const result = form.validate()
     if (result.hasErrors) return
@@ -55,7 +61,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
         type,
         directDownload,
       })
-      onClose()
+      close()
     } catch (e) {
       notifications.show({
         title: 'Error',
@@ -71,7 +77,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
     <Modal
       size="md"
       opened={visible}
-      onClose={onClose}
+      onClose={close}
       radius="md"
       centered
       withCloseButton={false}
@@ -99,7 +105,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
           />
           <Space h="xl" />
           <Group position="apart">
-            <Button onClick={onClose} variant="subtle" color="gray">
+            <Button onClick={close} variant="subtle" color="gray">
               Cancel
             </Button>
             <Group>
