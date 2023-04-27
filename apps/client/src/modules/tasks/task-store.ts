@@ -24,5 +24,5 @@ export const useTaskStore = create<{
   upsertTasks: (tasks: Task[]) => void
 }>((set) => ({
   tasks: [],
-  upsertTasks: (newTasks) => set(() => ({ tasks: { ...newTasks } })),
+  upsertTasks: (newTasks) => set(() => ({ tasks: newTasks || [] })),
 }))
