@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { io } from '@/libs/socket'
-import { SOCKET_EVENTS } from '@dload/shared'
+import { SOCKET_EVENTS, API_ROUTES } from '@dload/shared'
 import * as taskStore from './task-store'
 import * as taskService from './task-service'
 
@@ -11,7 +11,7 @@ io.on('connection', (socket) => {
   socket.emit(SOCKET_EVENTS.UPDATE_TASK, Object.values(tasks))
 })
 
-router.post('/add-task', async (req, res) => {
+router.post(API_ROUTES.ADD_TASK, async (req, res) => {
   const task = req.body as taskStore.Task
   await taskService.addTask(task)
   res.send('Success')

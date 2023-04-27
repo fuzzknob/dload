@@ -1,7 +1,7 @@
 import request from '@/libs/request'
 import { socket } from '@/libs/socket'
 import { Task } from './task-store'
-import { SOCKET_EVENTS } from '@dload/shared'
+import { SOCKET_EVENTS, API_ROUTES } from '@dload/shared'
 
 export type TaskPayload = {
   url: string
@@ -15,4 +15,4 @@ export const onTasksUpdate = (cb: (tasks: Task[]) => void) =>
   socket.on(SOCKET_EVENTS.UPDATE_TASK, cb)
 
 export const addTask = async (task: TaskPayload) =>
-  request.post('/add-task', task)
+  request.post(API_ROUTES.ADD_TASK, task)
