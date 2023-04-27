@@ -58,9 +58,7 @@ export class Database {
   setAll(data: DatabaseData) {
     this.checkDatabaseLoaded()
     this.data = data
-    this.updateStorage()
-      ?.then(() => console.log('Success'))
-      .catch((error) => console.log(error))
+    this.updateStorage()?.catch((error) => console.log(error))
   }
 
   updateStorage() {

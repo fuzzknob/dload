@@ -42,6 +42,7 @@ export function upsertTask(task: Task) {
   store.safeSet((tasks) => {
     if (!tasks) tasks = {}
     tasks[task.id] = task
+    return tasks
   })
 }
 
