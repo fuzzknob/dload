@@ -2,15 +2,16 @@ import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
 
-import { TaskType } from '@/modules/tasks/task-store'
+import { Task } from '@/modules/tasks/task-store'
 
 import Actions from './TaskActions'
 
 interface TaskProps {
-  type: TaskType
+  task: Task
 }
 
-const Task: React.FC<TaskProps> = ({ type }) => {
+const TaskComponent: React.FC<TaskProps> = ({ task }) => {
+  const { type } = task
   return (
     <Box
       sx={(theme) => ({
@@ -25,10 +26,10 @@ const Task: React.FC<TaskProps> = ({ type }) => {
     >
       <Group position="apart" align="center">
         <div>
-          <Text size="md">ubuntu desktop.iso</Text>
+          <Text size="md">{task.name}</Text>
           {type === 'QUEUE' && (
             <Text size="xs" color="dimmed" italic>
-              https://codeload.github.com/vuejs/vue/tar.gz/refs/tags/v2
+              {task.url}
             </Text>
           )}
         </div>
@@ -41,18 +42,29 @@ const Task: React.FC<TaskProps> = ({ type }) => {
             {type === 'COPY' ? 'Copying...' : 'Downloading...'}
           </Text>
           <Space h={5} />
-          <Progress value={20} color={type === 'DOWNLOAD' ? 'blue' : 'green'} />
+          <Progress
+            value={task.progress}
+            color={type === 'DOWNLOAD' ? 'blue' : 'green'}
+          />
           <Space h="sm" />
           <Group position="apart">
-            <Text size="xs">1.2GB / 3.0GB</Text>
+            {task.downloaded && task.totalSize && (
+              <Text size="xs">
+                {task.downloaded} / {task.totalSize}
+              </Text>
+            )}
             <Group>
               {type === 'DOWNLOAD' && (
                 <Group spacing={0}>
                   <IoArrowDownOutline />
-                  <Text size="xs">8.7 MB/s</Text>
+                  {task.downloadSpeed && (
+                    <Text size="xs">{task.downloadSpeed}</Text>
+                  )}
                 </Group>
               )}
-              <Text size="xs">Remaining 3m 56s</Text>
+              {task.remainingTime && (
+                <Text size="xs">{task.remainingTime}</Text>
+              )}
             </Group>
           </Group>
         </>
@@ -61,4 +73,4 @@ const Task: React.FC<TaskProps> = ({ type }) => {
   )
 }
 
-export default Task
+export default TaskComponent
