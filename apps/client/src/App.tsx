@@ -1,5 +1,6 @@
 import React from 'react'
 import { MantineProvider } from '@mantine/core'
+import { Notifications } from '@mantine/notifications'
 import { useColorScheme } from '@mantine/hooks'
 
 import TaskProvider from '@/modules/tasks/TaskProvider'
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         withGlobalStyles
         withNormalizeCSS
       >
+        <Notifications position="top-right" />
         <Main />
       </MantineProvider>
     </TaskProvider>

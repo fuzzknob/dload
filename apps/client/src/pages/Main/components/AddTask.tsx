@@ -11,6 +11,7 @@ import {
   Button,
 } from '@mantine/core'
 import { isNotEmpty, matches, useForm } from '@mantine/form'
+import { notifications } from '@mantine/notifications'
 
 import * as taskService from '@/modules/tasks/task-service'
 
@@ -20,12 +21,13 @@ type AddTaskProps = {
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
+  const [isSubmitting, setSubmitting] = useState(false)
   const [directDownload, setDirectDownload] = useState(true)
   const form = useForm({
     initialValues: {
       url: '',
       name: '',
-      downloadPath: '/Users/username/Downloads',
+      downloadPath: '/Users/fuzzknob/Downloads',
     },
     validate: {
       url: matches(
@@ -36,15 +38,26 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
     },
   })
 
-  function handleSubmit(type: 'DOWNLOAD' | 'QUEUE') {
+  async function handleSubmit(type: 'DOWNLOAD' | 'QUEUE') {
     const result = form.validate()
     if (result.hasErrors) return
-    taskService.addTask({
-      ...form.values,
-      type,
-      directDownload,
-    })
-    onClose()
+    setSubmitting(true)
+    try {
+      await taskService.addTask({
+        ...form.values,
+        type,
+        directDownload,
+      })
+      onClose()
+    } catch (e) {
+      notifications.show({
+        title: 'Error',
+        message: 'Error while adding task',
+        color: 'red',
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -68,7 +81,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
           <Space h="sm" />
           <Select
             label="Save To"
-            data={['/Users/username/Downloads', '/downloads2']}
+            data={['/Users/fuzzknob/Downloads', '/downloads2']}
             {...form.getInputProps('downloadPath')}
           />
           <Space h="xl" />
@@ -90,7 +103,9 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
               >
                 Queue
               </Button>
-              <Button type="submit">Download</Button>
+              <Button loading={isSubmitting} type="submit">
+                Download
+              </Button>
             </Group>
           </Group>
         </form>

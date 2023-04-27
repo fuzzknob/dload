@@ -9,9 +9,12 @@ const router = Router()
 io.on('connection', (socket) => {
   const tasks = taskStore.allTasks()
   socket.emit(SOCKET_EVENTS.TASK_UPDATE, Object.values(tasks))
-  socket.on(SOCKET_EVENTS.ADD_TASK, async (task: taskStore.Task) => {
-    await taskService.addTask(task)
-  })
+})
+
+router.post('/add-task', async (req, res) => {
+  const task = req.body as taskStore.Task
+  await taskService.addTask(task)
+  res.send('Success')
 })
 
 export default router

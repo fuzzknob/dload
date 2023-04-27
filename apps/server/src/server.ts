@@ -8,6 +8,7 @@ import TaskRoutes from './modules/tasks/task-controller'
 
 const expressServer = express()
 expressServer.use(cors())
+expressServer.use(express.json())
 
 // Routes
 expressServer.use(TaskRoutes)

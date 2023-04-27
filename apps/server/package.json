@@ -17,8 +17,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@dload/tsconfig": "*",
     "@dload/shared": "*",
+    "@dload/tsconfig": "*",
     "@types/express": "^4.17.13",
     "@types/fs-extra": "^9.0.13",
     "@types/lodash": "^4.14.184",
