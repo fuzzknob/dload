@@ -15,6 +15,7 @@ import {
   getTaskStatus,
 } from './task-utils'
 import { waitToInitialize } from '@/libs/waitToInitialize'
+import { notify } from '@/modules/notifications/notification-service'
 
 import * as taskStore from './task-store'
 
@@ -69,15 +70,20 @@ export async function startDownload(task: taskStore.Task) {
 async function onDownloadError(gid: string) {
   const task = taskStore.getTaskByGID(gid)
   if (!task) return
-  // notification code
-  console.log('TASK ERROR', gid)
+  notify({
+    code: 'DOWNLOAD_ERROR',
+    message: `There was an error while downloading ${task.name}`,
+  })
   await removeDownload(task) // todo: work on a retry code
 }
 
 function onDownloadComplete(gid: string) {
   const task = taskStore.getTaskByGID(gid)
+  notify({
+    code: 'DOWNLOAD_SUCCESSFUL',
+    message: `${task ? task.name : 'File'} is downloaded`,
+  })
   if (task) taskStore.deleteTask(task.id)
-  // notification code
   console.log('TASK COMPLETED', gid)
 }
 

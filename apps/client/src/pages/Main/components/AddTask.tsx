@@ -64,7 +64,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
       close()
     } catch (e) {
       notifications.show({
-        title: 'Error',
+        title: 'Failure',
         message: 'Error while adding task',
         color: 'red',
       })
