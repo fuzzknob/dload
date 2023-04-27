@@ -45,9 +45,7 @@ export class Database {
   setPath(path: string, data: any) {
     this.checkDatabaseLoaded()
     set(this.data, path, data)
-    this.updateStorage()
-      ?.then(() => console.log('Success'))
-      .catch((error) => console.log(error))
+    this.updateStorage()?.catch((error) => console.log(error))
   }
 
   getAll() {
