@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { IoAddOutline, IoSettingsOutline } from 'react-icons/io5'
-import { Space, Group, Box, Title, ActionIcon } from '@mantine/core'
+import { Space, Group, Box, Title, Text, ActionIcon } from '@mantine/core'
 import { useHotkeys } from '@mantine/hooks'
 
 import MainLayout from '@/layouts/MainLayout'
@@ -35,21 +35,40 @@ const Main: React.FC = () => {
         </ActionIcon>
       </Group>
       <Space h={50} />
-      <Box>
-        <Title order={3}>In Progress</Title>
-        <Space h="md" />
-        {activeTasks.map((task) => (
-          <Task key={task.id} task={task} />
-        ))}
-      </Box>
-      <Space h={50} />
-      <Box>
-        <Title order={3}>In Queue</Title>
-        <Space h="md" />
-        {queuedTasks.map((task) => (
-          <Task key={task.id} task={task} />
-        ))}
-      </Box>
+      {tasks.length ? (
+        <>
+          <Box>
+            <Title order={3}>In Progress</Title>
+            <Space h="md" />
+            {activeTasks.map((task) => (
+              <Task key={task.id} task={task} />
+            ))}
+          </Box>
+          <Space h={50} />
+          {!!queuedTasks.length && (
+            <Box>
+              <Title order={3}>In Queue</Title>
+              <Space h="md" />
+              {queuedTasks.map((task) => (
+                <Task key={task.id} task={task} />
+              ))}
+            </Box>
+          )}
+        </>
+      ) : (
+        <Box
+          sx={(theme) => ({
+            padding: '50px 20px',
+            borderRadius: '10px',
+            backgroundColor:
+              theme.colorScheme === 'dark'
+                ? theme.colors.dark[5]
+                : theme.colors.gray[1],
+          })}
+        >
+          <Text align="center">No tasks in hand</Text>
+        </Box>
+      )}
     </MainLayout>
   )
 }
