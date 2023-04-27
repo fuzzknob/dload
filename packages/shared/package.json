@@ -1,6 +1,8 @@
 {
   "name": "@dload/shared",
   "version": "0.0.1",
+  "main": "index.ts",
+  "types": "index.ts",
   "devDependencies": {
     "@dload/tsconfig": "*"
   }
