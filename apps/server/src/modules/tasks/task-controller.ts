@@ -20,7 +20,6 @@ router.post(API_ROUTES.ADD_TASK, async (req, res) => {
 router.post(API_ROUTES.REMOVE_TASK, async (req, res) => {
   const taskId = req.body.taskId as string
   const task = taskStore.getTask(taskId)
-  console.log(task)
   await taskService.removeDownload(task)
   res.send('Success')
 })
