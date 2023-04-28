@@ -1,5 +1,6 @@
 import React from 'react'
 import { MantineProvider } from '@mantine/core'
+import { ModalsProvider } from '@mantine/modals'
 import { useColorScheme } from '@mantine/hooks'
 
 import TaskProvider from '@/modules/tasks/TaskProvider'
@@ -16,9 +17,14 @@ const App: React.FC = () => {
         withGlobalStyles
         withNormalizeCSS
       >
-        <NotificationProvider>
-          <Main />
-        </NotificationProvider>
+        <ModalsProvider
+          labels={{ confirm: 'Confirm', cancel: 'Cancel' }}
+          modalProps={{ centered: true }}
+        >
+          <NotificationProvider>
+            <Main />
+          </NotificationProvider>
+        </ModalsProvider>
       </MantineProvider>
     </TaskProvider>
   )

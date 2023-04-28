@@ -1,9 +1,11 @@
 import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import copyToClipboard from 'copy-to-clipboard'
 
 import { Task } from '@/modules/tasks/task-store'
+import * as taskService from '@/modules/tasks/task-service'
 
 import Actions from './TaskActions'
 
@@ -16,6 +18,13 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
 
   function copyDownloadLink() {
     copyToClipboard(task.url)
+  }
+
+  function removeTask() {
+    modals.openConfirmModal({
+      title: 'Are you sure?',
+      onConfirm: () => taskService.removeTask(task.id),
+    })
   }
 
   return (
@@ -39,7 +48,11 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
             </Text>
           )}
         </div>
-        <Actions task={task} copyDownloadLink={copyDownloadLink} />
+        <Actions
+          task={task}
+          copyDownloadLink={copyDownloadLink}
+          removeTask={removeTask}
+        />
       </Group>
       {['COPY', 'DOWNLOAD'].includes(type) && (
         <>

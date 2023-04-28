@@ -9,22 +9,24 @@ import {
 
 import { Task, TaskType } from '@/modules/tasks/task-store'
 
-type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'CLOSE'
+type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'REMOVE'
 
 const ACTION_MAP: Record<TaskType, ActionType[]> = {
-  DOWNLOAD: ['PAUSE', 'COPY_LINK', 'CLOSE'],
-  COPY: ['COPY_LINK', 'CLOSE'],
-  QUEUE: ['EDIT', 'COPY_LINK', 'CLOSE'],
+  DOWNLOAD: ['PAUSE', 'COPY_LINK', 'REMOVE'],
+  COPY: ['COPY_LINK', 'REMOVE'],
+  QUEUE: ['EDIT', 'COPY_LINK', 'REMOVE'],
 }
 
 interface TaskActionsProps {
   task: Task
   copyDownloadLink: () => void
+  removeTask: () => void
 }
 
 const TaskActions: React.FC<TaskActionsProps> = ({
   task,
   copyDownloadLink,
+  removeTask,
 }) => {
   const actions = ACTION_MAP[task.type]
   return (
@@ -46,8 +48,8 @@ const TaskActions: React.FC<TaskActionsProps> = ({
               <IoCreateOutline size={18} />
             </ActionIcon>
           )}
-          {action === 'CLOSE' && (
-            <ActionIcon>
+          {action === 'REMOVE' && (
+            <ActionIcon onClick={removeTask}>
               <IoCloseOutline size={20} />
             </ActionIcon>
           )}

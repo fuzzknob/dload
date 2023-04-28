@@ -67,6 +67,13 @@ export async function startDownload(task: taskStore.Task) {
   })
 }
 
+export async function removeDownload(task: taskStore.Task) {
+  if (!task.gid) return
+  await stopDownload(task.gid)
+  await cleanDownload(`${task.downloadPath}/${task.name}`)
+  taskStore.deleteTask(task.id)
+}
+
 async function onDownloadError(gid: string) {
   const task = taskStore.getTaskByGID(gid)
   if (!task) return
@@ -108,13 +115,6 @@ async function fetchAndUpdateAriaTasks() {
       totalSize: bytesToSize(item.totalLength),
     })
   })
-}
-
-async function removeDownload(task: taskStore.Task) {
-  if (!task.gid) return
-  await stopDownload(task.gid)
-  await cleanDownload(`${task.downloadPath}/${task.name}`)
-  taskStore.deleteTask(task.id)
 }
 
 async function watcher() {
