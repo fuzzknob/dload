@@ -1,6 +1,7 @@
 import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
+import copyToClipboard from 'copy-to-clipboard'
 
 import { Task } from '@/modules/tasks/task-store'
 
@@ -12,6 +13,11 @@ interface TaskProps {
 
 const TaskComponent: React.FC<TaskProps> = ({ task }) => {
   const { type } = task
+
+  function copyDownloadLink() {
+    copyToClipboard(task.url)
+  }
+
   return (
     <Box
       sx={(theme) => ({
@@ -33,7 +39,7 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
             </Text>
           )}
         </div>
-        <Actions type={type} />
+        <Actions task={task} copyDownloadLink={copyDownloadLink} />
       </Group>
       {['COPY', 'DOWNLOAD'].includes(type) && (
         <>

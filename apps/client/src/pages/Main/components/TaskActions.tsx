@@ -7,7 +7,7 @@ import {
   IoCloseOutline,
 } from 'react-icons/io5'
 
-import { TaskType } from '@/modules/tasks/task-store'
+import { Task, TaskType } from '@/modules/tasks/task-store'
 
 type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'CLOSE'
 
@@ -17,52 +17,40 @@ const ACTION_MAP: Record<TaskType, ActionType[]> = {
   QUEUE: ['EDIT', 'COPY_LINK', 'CLOSE'],
 }
 
-const PauseAction = () => {
-  return (
-    <ActionIcon>
-      <IoPauseOutline size={16} />
-    </ActionIcon>
-  )
-}
-
-const CopyLinkAction = () => {
-  return (
-    <ActionIcon>
-      <IoLinkOutline size={18} />
-    </ActionIcon>
-  )
-}
-
-const EditAction = () => {
-  return (
-    <ActionIcon>
-      <IoCreateOutline size={18} />
-    </ActionIcon>
-  )
-}
-
-const CloseAction = () => {
-  return (
-    <ActionIcon>
-      <IoCloseOutline size={20} />
-    </ActionIcon>
-  )
-}
-
 interface TaskActionsProps {
-  type: TaskType
+  task: Task
+  copyDownloadLink: () => void
 }
 
-const TaskActions: React.FC<TaskActionsProps> = ({ type }) => {
-  const actions = ACTION_MAP[type]
+const TaskActions: React.FC<TaskActionsProps> = ({
+  task,
+  copyDownloadLink,
+}) => {
+  const actions = ACTION_MAP[task.type]
   return (
     <Group spacing="xs">
       {actions.map((action, index) => (
         <div key={`${action}${index}`}>
-          {action === 'PAUSE' && <PauseAction />}
-          {action === 'COPY_LINK' && <CopyLinkAction />}
-          {action === 'EDIT' && <EditAction />}
-          {action === 'CLOSE' && <CloseAction />}
+          {action === 'PAUSE' && (
+            <ActionIcon>
+              <IoPauseOutline size={16} />
+            </ActionIcon>
+          )}
+          {action === 'COPY_LINK' && (
+            <ActionIcon onClick={copyDownloadLink}>
+              <IoLinkOutline size={18} />
+            </ActionIcon>
+          )}
+          {action === 'EDIT' && (
+            <ActionIcon>
+              <IoCreateOutline size={18} />
+            </ActionIcon>
+          )}
+          {action === 'CLOSE' && (
+            <ActionIcon>
+              <IoCloseOutline size={20} />
+            </ActionIcon>
+          )}
         </div>
       ))}
     </Group>
