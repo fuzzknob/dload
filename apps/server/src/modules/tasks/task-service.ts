@@ -84,6 +84,23 @@ async function onDownloadError(gid: string) {
   await removeDownload(task) // todo: work on a retry code
 }
 
+export async function togglePause(task: taskStore.Task) {
+  if (!task.gid) return
+  if (task.status === 'IN_PROGRESS') {
+    await aria2.pause(task.gid)
+    taskStore.upsertTask({
+      ...task,
+      status: 'PAUSED',
+    })
+  } else {
+    await aria2.unpause(task.gid)
+    taskStore.upsertTask({
+      ...task,
+      status: 'IN_PROGRESS',
+    })
+  }
+}
+
 function onDownloadComplete(gid: string) {
   const task = taskStore.getTaskByGID(gid)
   notify({

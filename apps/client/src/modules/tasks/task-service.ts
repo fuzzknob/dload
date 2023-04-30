@@ -19,3 +19,6 @@ export const addTask = (task: TaskPayload) =>
 
 export const removeTask = (taskId: string) =>
   request.post(API_ROUTES.REMOVE_TASK, { taskId })
+
+export const togglePause = (taskId: string) =>
+  request.post(API_ROUTES.TASK_TOGGLE_PAUSE, { taskId })

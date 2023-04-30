@@ -27,6 +27,10 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
     })
   }
 
+  function togglePause() {
+    taskService.togglePause(task.id)
+  }
+
   return (
     <Box
       sx={(theme) => ({
@@ -50,8 +54,9 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
         </div>
         <Actions
           task={task}
-          copyDownloadLink={copyDownloadLink}
+          togglePause={togglePause}
           removeTask={removeTask}
+          copyDownloadLink={copyDownloadLink}
         />
       </Group>
       {['COPY', 'DOWNLOAD'].includes(type) && (
@@ -72,19 +77,23 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
                 {task.downloaded} / {task.totalSize}
               </Text>
             )}
-            <Group>
-              {type === 'DOWNLOAD' && (
-                <Group spacing={0}>
-                  <IoArrowDownOutline />
-                  {task.downloadSpeed && (
-                    <Text size="xs">{task.downloadSpeed}</Text>
-                  )}
-                </Group>
-              )}
-              {task.remainingTime && (
-                <Text size="xs">{task.remainingTime}</Text>
-              )}
-            </Group>
+            {['IN_PROGRESS'].includes(task.status) && (
+              <Group>
+                {type === 'DOWNLOAD' && (
+                  <Group spacing={0}>
+                    {task.downloadSpeed && (
+                      <>
+                        <IoArrowDownOutline />
+                        <Text size="xs">{task.downloadSpeed}</Text>
+                      </>
+                    )}
+                  </Group>
+                )}
+                {task.remainingTime && (
+                  <Text size="xs">{task.remainingTime}</Text>
+                )}
+              </Group>
+            )}
           </Group>
         </>
       )}

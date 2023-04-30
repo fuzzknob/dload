@@ -5,6 +5,7 @@ import {
   IoLinkOutline,
   IoCreateOutline,
   IoCloseOutline,
+  IoPlayOutline,
 } from 'react-icons/io5'
 
 import { Task, TaskType } from '@/modules/tasks/task-store'
@@ -19,14 +20,16 @@ const ACTION_MAP: Record<TaskType, ActionType[]> = {
 
 interface TaskActionsProps {
   task: Task
-  copyDownloadLink: () => void
+  togglePause: () => void
   removeTask: () => void
+  copyDownloadLink: () => void
 }
 
 const TaskActions: React.FC<TaskActionsProps> = ({
   task,
-  copyDownloadLink,
+  togglePause,
   removeTask,
+  copyDownloadLink,
 }) => {
   const actions = ACTION_MAP[task.type]
   return (
@@ -34,8 +37,12 @@ const TaskActions: React.FC<TaskActionsProps> = ({
       {actions.map((action, index) => (
         <div key={`${action}${index}`}>
           {action === 'PAUSE' && (
-            <ActionIcon>
-              <IoPauseOutline size={16} />
+            <ActionIcon onClick={togglePause}>
+              {task.status === 'PAUSED' ? (
+                <IoPlayOutline size={16} />
+              ) : (
+                <IoPauseOutline size={16} />
+              )}
             </ActionIcon>
           )}
           {action === 'COPY_LINK' && (

@@ -14,14 +14,21 @@ io.on('connection', (socket) => {
 router.post(API_ROUTES.ADD_TASK, async (req, res) => {
   const task = req.body as taskStore.Task
   await taskService.addTask(task)
-  res.send('Success')
+  res.send()
 })
 
 router.post(API_ROUTES.REMOVE_TASK, async (req, res) => {
   const taskId = req.body.taskId as string
   const task = taskStore.getTask(taskId)
   await taskService.removeDownload(task)
-  res.send('Success')
+  res.send()
+})
+
+router.post(API_ROUTES.TASK_TOGGLE_PAUSE, async (req, res) => {
+  const taskId = req.body.taskId as string
+  const task = taskStore.getTask(taskId)
+  await taskService.togglePause(task)
+  res.send()
 })
 
 export default router
