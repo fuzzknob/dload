@@ -60,6 +60,7 @@ export async function startDownload(task: taskStore.Task) {
   const gid = await aria2.addUri(task.url, {
     dir: task.downloadPath,
     out: task.name,
+    split: 64,
   })
   taskStore.upsertTask({
     ...task,

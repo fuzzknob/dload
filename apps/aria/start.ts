@@ -1,10 +1,11 @@
-import { platform } from 'node:os'
+import { platform, arch } from 'node:os'
 import { resolve } from 'node:path'
 import { spawn } from 'node:child_process'
 import readline from 'node:readline'
 
-const aria2cPath = resolve(__dirname, `./${platform()}/aria2c`)
+const aria2cPath = resolve(__dirname, `./${platform()}/${arch()}/aria2c`)
 const rl = readline.createInterface({input: process.stdin, output: process.stdout})
+
 
 const ariaInstance = spawn(
   aria2cPath,
