@@ -4,12 +4,13 @@ import { spawn } from 'node:child_process'
 import readline from 'node:readline'
 
 const aria2cPath = resolve(__dirname, `./${platform()}/${arch()}/aria2c`)
-const rl = readline.createInterface({input: process.stdin, output: process.stdout})
+const aira2configPath = resolve(__dirname, `./aria2.conf`)
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
 
 const ariaInstance = spawn(
   aria2cPath,
-  ['--enable-rpc', '--rpc-listen-all=true', '--rpc-allow-origin-all'],
+  [`--conf-path=${aira2configPath}`],
   {
     windowsHide: false,
     stdio: 'pipe',
@@ -35,3 +36,4 @@ rl.on('SIGINT', () => {
   console.log('\n*** Stopping Aria2 ***')
   ariaInstance.kill('SIGINT')
 })
+
