@@ -10,7 +10,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 
 const ariaInstance = spawn(
   aria2cPath,
-  [`--conf-path=${aira2configPath}`],
+  [`--conf-path=${aira2configPath}`, '--disable-ipv6'],
   {
     windowsHide: false,
     stdio: 'pipe',

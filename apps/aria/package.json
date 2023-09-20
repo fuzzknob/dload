@@ -2,7 +2,8 @@
   "name": "@dload/aria",
   "version": "0.0.1",
   "scripts": {
-    "dev": "ts-node start.ts"
+    "dev": "yarn start",
+    "start": "ts-node start.ts"
   },
   "devDependencies": {
     "@dload/tsconfig": "*",
