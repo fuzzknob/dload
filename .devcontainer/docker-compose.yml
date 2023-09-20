@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  development:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    environment:
+      - TZ=UTC
+    volumes:
+      - ..:/workspaces/dload:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../nginx-dev.conf:/etc/nginx/nginx.conf
+    command: sleep infinity

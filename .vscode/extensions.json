@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "albert.tabout",
+    "mikestead.dotenv",
+    "vue.volar",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "esbenp.prettier-vscode",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+    "heybourn.headwind",
+    "ms-vscode-remote.remote-containers",
+    "aaron-bond.better-comments",
+    "ms-azuretools.vscode-docker"
+  ]
+}

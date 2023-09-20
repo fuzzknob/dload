@@ -1,0 +1,22 @@
+{
+  "name": "dload",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "development",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/zsh"
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [8080],
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "workspaceFolder": "/workspaces/dload"
+}
