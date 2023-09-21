@@ -1,9 +1,14 @@
 {
   "name": "@dload/shared",
   "version": "0.0.1",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
-    "@dload/tsconfig": "*"
+    "@dload/tsconfig": "*",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   }
 }

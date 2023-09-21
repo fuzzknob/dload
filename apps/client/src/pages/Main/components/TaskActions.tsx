@@ -7,8 +7,7 @@ import {
   IoCloseOutline,
   IoPlayOutline,
 } from 'react-icons/io5'
-
-import { Task, TaskType } from '@/modules/tasks/task-store'
+import { Task, TaskType } from '@dload/shared'
 
 type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'REMOVE'
 

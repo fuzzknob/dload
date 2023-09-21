@@ -1,7 +1,6 @@
 import request from '@/libs/request'
 import { socket } from '@/libs/socket'
-import { Task } from './task-store'
-import { SOCKET_EVENTS, API_ROUTES } from '@dload/shared'
+import { SOCKET_EVENTS, API_ROUTES, Task } from '@dload/shared'
 
 export type TaskPayload = {
   url: string

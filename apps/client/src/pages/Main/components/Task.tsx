@@ -3,8 +3,8 @@ import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import copyToClipboard from 'copy-to-clipboard'
+import { Task } from '@dload/shared'
 
-import { Task } from '@/modules/tasks/task-store'
 import * as taskService from '@/modules/tasks/task-service'
 
 import Actions from './TaskActions'
