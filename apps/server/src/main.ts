@@ -1,3 +1,4 @@
+import 'dotenv-flow/config'
 import db from '@/services/database'
 import { initialize as initializeWaiting } from './libs/waitToInitialize'
 import { startServer } from './server'

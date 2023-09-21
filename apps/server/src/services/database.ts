@@ -1,7 +1,8 @@
+import { getEnvValue } from '@/libs/utils'
 import fs from 'fs-extra'
 import { get, set, throttle } from 'lodash'
 
-const DATABASE_PATH = './data/database.json'
+const DATABASE_PATH = `${getEnvValue('CONFIG_PATH')}/data/database.json`
 
 type DatabaseData = Record<string | number, string | number | [] | object>
 

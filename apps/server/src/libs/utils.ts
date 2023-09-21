@@ -72,6 +72,17 @@ export async function suppressError<S>(promise: Promise<S>) {
   }
 }
 
+export function getEnvValue(
+  key: string,
+  options = { isOptional: false },
+): string {
+  const value = process.env[key]
+  if (!value && !options.isOptional) {
+    throw new Error(`${key} is required`)
+  }
+  return value || ''
+}
+
 export function generateUuid() {
   return uuidv4()
 }
