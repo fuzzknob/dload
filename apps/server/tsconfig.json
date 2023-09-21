@@ -1,10 +1,11 @@
 {
   "extends": "@dload/tsconfig/node.json",
   "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./**/*.ts", "../aria/start.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts"]
 }
