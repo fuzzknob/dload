@@ -2,12 +2,17 @@
   "name": "@dload/aria",
   "version": "0.0.1",
   "scripts": {
-    "dev": "yarn start",
-    "start": "ts-node start.ts"
+    "dev": "nodemon -r tsconfig-paths/register --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' start.ts",
+    "build": "tsup",
+    "start": "node dist/start.js",
+    "clean": "rm -rf ./dist"
   },
   "devDependencies": {
     "@dload/tsconfig": "*",
-    "ts-node": "^10.9.1"
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {}
 }

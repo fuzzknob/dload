@@ -3,8 +3,10 @@ import { resolve } from 'node:path'
 import { spawn } from 'node:child_process'
 import readline from 'node:readline'
 
-const aria2cPath = resolve(__dirname, `./${platform()}/${arch()}/aria2c`)
-const aira2configPath = resolve(__dirname, `./aria2.conf`)
+const cwd = process.cwd()
+
+const aria2cPath = resolve(cwd, `./${platform()}/${arch()}/aria2c`)
+const aira2configPath = resolve(cwd, `./aria2.conf`)
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
 

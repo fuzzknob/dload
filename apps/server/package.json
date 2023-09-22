@@ -4,10 +4,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r tsconfig-paths/register --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/main.ts",
-    "start": "ts-node -r tsconfig-paths/register src/main.ts"
+    "build": "tsup",
+    "start": "node dist/main.js",
+    "clean": "rm -rf ./dist"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv-flow": "^3.3.0",
     "express": "^4.18.1",
@@ -32,11 +34,12 @@
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "nodemon": "^2.0.19",
+    "nodemon": "^3.0.1",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
     "tslib": "^2.4.0",
+    "tsup": "^7.2.0",
     "typescript": "^4.8.2"
   }
 }

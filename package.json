@@ -10,10 +10,12 @@
     "apps/*"
   ],
   "scripts": {
+    "build": "turbo run build",
     "dev": "turbo run dev",
-    "aria": "turbo run dev --scope=aria",
-    "client": "turbo run dev --scope=client",
-    "server": "turbo run dev --scope=server"
+    "clean": "turbo run clean",
+    "aria:dev": "turbo run dev --scope=aria",
+    "client:dev": "turbo run dev --scope=client",
+    "server:dev": "turbo run dev --scope=server"
   },
   "dependencies": {
     "turbo": "^1.7.0"
