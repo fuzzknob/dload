@@ -33,7 +33,7 @@ WORKDIR /app
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends nginx
 
 COPY --from=installer /app .
+COPY --from=installer /app/apps/client/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY ./apps/client/dist /usr/share/nginx/html
 
-CMD nginx && yarn start #TODO: use s6-overlay
+CMD nginx && yarn start
