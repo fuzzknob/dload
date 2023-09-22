@@ -16,6 +16,7 @@ import {
 } from './task-utils'
 import { waitToInitialize } from '@/libs/waitToInitialize'
 import { notify } from '@/modules/notifications/notification-service'
+import { Task, TaskType } from '@dload/shared'
 
 import * as taskStore from './task-store'
 
@@ -33,14 +34,14 @@ export function initialize() {
 interface TaskPayload {
   url: string
   name: string
-  type: taskStore.TaskType
+  type: TaskType
   downloadPath: string
   directDownload: boolean
 }
 
 export async function addTask(payload: TaskPayload) {
   const detail = await getDetails(payload.url)
-  const task: taskStore.Task = {
+  const task: Task = {
     id: generateUuid(),
     name: payload.name ? `${payload.name}.${detail.extension}` : detail.name,
     fileExtension: detail.extension,
@@ -56,7 +57,7 @@ export async function addTask(payload: TaskPayload) {
   return startDownload(task)
 }
 
-export async function startDownload(task: taskStore.Task) {
+export async function startDownload(task: Task) {
   const gid = await aria2.addUri(task.url, {
     dir: task.downloadPath,
     out: task.name,
@@ -68,7 +69,7 @@ export async function startDownload(task: taskStore.Task) {
   })
 }
 
-export async function removeDownload(task: taskStore.Task) {
+export async function removeDownload(task: Task) {
   if (!task.gid) return
   await stopDownload(task.gid)
   await cleanDownload(`${task.downloadPath}/${task.name}`)
@@ -85,7 +86,7 @@ async function onDownloadError(gid: string) {
   await removeDownload(task) // todo: work on a retry code
 }
 
-export async function togglePause(task: taskStore.Task) {
+export async function togglePause(task: Task) {
   if (!task.gid) return
   if (task.status === 'IN_PROGRESS') {
     await aria2.pause(task.gid)

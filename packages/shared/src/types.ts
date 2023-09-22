@@ -16,3 +16,8 @@ export interface Task {
   downloaded?: string
   totalSize?: string
 }
+
+
+export interface Settings {
+  downloadPaths: string[]
+}

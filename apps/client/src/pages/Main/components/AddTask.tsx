@@ -15,6 +15,7 @@ import { useForm, zodResolver } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
 
 import * as taskService from '@/modules/tasks/task-service'
+import { useSettingStore } from '@/modules/settings/setting-store'
 
 const addTaskSchema = z.object({
   url: z.string().url(),
@@ -30,12 +31,13 @@ type AddTaskProps = {
 const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
   const [isSubmitting, setSubmitting] = useState(false)
   const [directDownload, setDirectDownload] = useState(true)
+  const { downloadPaths } = useSettingStore(({ settings }) => settings)
   const form = useForm({
     validate: zodResolver(addTaskSchema),
     initialValues: {
       url: '',
       name: '',
-      downloadPath: '/Users/fuzzknob/Downloads',
+      downloadPath: downloadPaths[0],
     },
     transformValues: (values) => ({
       ...values,
@@ -94,7 +96,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
           <Space h="sm" />
           <Select
             label="Save To"
-            data={['/Users/fuzzknob/Downloads', '/downloads2']}
+            data={downloadPaths}
             {...form.getInputProps('downloadPath')}
           />
           <Space h="xl" />
