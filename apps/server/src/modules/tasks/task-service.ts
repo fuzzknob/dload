@@ -17,6 +17,7 @@ import {
 import { waitToInitialize } from '@/libs/waitToInitialize'
 import { notify } from '@/modules/notifications/notification-service'
 import { Task, TaskType } from '@dload/shared'
+import * as logger from '@/libs/logger'
 
 import * as taskStore from './task-store'
 
@@ -28,7 +29,7 @@ export function initialize() {
   aria2.addListener('aria2.onDownloadError', (event) =>
     onDownloadError(event.gid),
   )
-  watcher().catch((e) => console.error('task watcher error', e))
+  watcher().catch((e) => logger.error('task watcher error', e))
 }
 
 interface TaskPayload {
@@ -110,7 +111,7 @@ function onDownloadComplete(gid: string) {
     message: `${task ? task.name : 'File'} is downloaded`,
   })
   if (task) taskStore.deleteTask(task.id)
-  console.log('TASK COMPLETED', gid)
+  logger.log('TASK COMPLETED', gid)
 }
 
 async function fetchAndUpdateAriaTasks() {

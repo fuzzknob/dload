@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'fs-extra'
+import * as logger from './logger'
 
 export function formatRemainingTime(seconds: number) {
   const time = { hours: '', minutes: '', seconds: '' }
@@ -85,4 +86,10 @@ export function getEnvValue(
 
 export function generateUuid() {
   return uuidv4()
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function logErrorAndRethrow(e: any) {
+  logger.error(e)
+  throw e
 }

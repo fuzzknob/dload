@@ -1,4 +1,4 @@
-import { getEnvValue } from '@/libs/utils'
+import { getEnvValue, logErrorAndRethrow } from '@/libs/utils'
 import fs from 'fs-extra'
 import { get, set, throttle } from 'lodash'
 
@@ -32,8 +32,7 @@ export class Database {
       this.isLoaded = true
     } catch (e) {
       const error = e as Error
-      console.log(error.message)
-      // console.log(e)
+      logErrorAndRethrow(error)
     }
   }
 
@@ -46,7 +45,7 @@ export class Database {
   setPath(path: string, data: any) {
     this.checkDatabaseLoaded()
     set(this.data, path, data)
-    this.updateStorage()?.catch((error) => console.log(error))
+    this.updateStorage()
   }
 
   getAll() {
@@ -57,17 +56,19 @@ export class Database {
   setAll(data: DatabaseData) {
     this.checkDatabaseLoaded()
     this.data = data
-    this.updateStorage()?.catch((error) => console.log(error))
+    this.updateStorage()
   }
 
   updateStorage() {
     if (!this.isLoaded) return
-    return throttledUpdate(this.data)
+    return throttledUpdate(this.data)?.catch((error) =>
+      logErrorAndRethrow(error),
+    )
   }
 
   private checkDatabaseLoaded() {
     if (!this.isLoaded) {
-      console.error('Database is not loaded')
+      logErrorAndRethrow('Database is not loaded')
     }
   }
 }
