@@ -1,3 +1,4 @@
 .eslintrc.js
 dist
 *.config.js
+*.config.ts

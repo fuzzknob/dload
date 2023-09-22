@@ -10,6 +10,7 @@
     "apps/*"
   ],
   "scripts": {
+    "start": "turbo run start",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "clean": "turbo run clean",
