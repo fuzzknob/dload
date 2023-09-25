@@ -17,7 +17,7 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY --from=builder /app/out/json/ .
-RUN yarn
+RUN yarn install
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
