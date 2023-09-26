@@ -29,6 +29,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64, linux/arm64
+          file: ./docker/Dockerfile
+          platforms: linux/amd64
           push: true
           tags: fuzzknob/dload:latest
