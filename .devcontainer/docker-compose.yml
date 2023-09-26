@@ -10,5 +10,5 @@ services:
     volumes:
       - ..:/workspaces/dload:cached
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../nginx-dev.conf:/etc/nginx/nginx.conf
+      - ../docker/nginx-dev.conf:/etc/nginx/nginx.conf
     command: sleep infinity
