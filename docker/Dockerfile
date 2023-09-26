@@ -34,6 +34,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-rec
 
 COPY --from=installer /app .
 COPY --from=installer /app/apps/client/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 CMD nginx && yarn start
