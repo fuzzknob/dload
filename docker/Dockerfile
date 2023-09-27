@@ -25,7 +25,9 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=setup /app/out/yarn.lock ./yarn.lock
 COPY --from=setup /app/out/json/ .
-RUN yarn install --network-timeout 60000
+RUN yarn config set registry https://registry.npmjs.org/
+RUN yarn config set network-timeout 1200000
+RUN yarn install
 
 COPY --from=setup /app/out/full/ .
 COPY turbo.json turbo.json
