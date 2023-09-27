@@ -1,0 +1,7 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+
+mkdir -p /config
+
+chown -R dload:dload /app
+chown -R dload:dload /config

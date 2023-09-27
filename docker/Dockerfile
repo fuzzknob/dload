@@ -1,6 +1,14 @@
 FROM node:lts-bookworm as base
 
-FROM base as builder
+FROM base as setup
+
+ARG TARGETPLATFORM
+
+RUN mkdir root-outputs
+
+COPY docker/scripts/install-s6overlay.sh /tmp
+
+RUN /tmp/install-s6overlay.sh "${TARGETPLATFORM}" /root-outputs
 
 WORKDIR /app
 
@@ -15,25 +23,48 @@ FROM base as installer
 WORKDIR /app
 
 COPY .gitignore .gitignore
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
-COPY --from=builder /app/out/json/ .
-RUN yarn install
+COPY --from=setup /app/out/yarn.lock ./yarn.lock
+COPY --from=setup /app/out/json/ .
+RUN yarn install --network-timeout 60000
 
-COPY --from=builder /app/out/full/ .
+COPY --from=setup /app/out/full/ .
 COPY turbo.json turbo.json
 
 RUN yarn clean
 
 RUN yarn build
 
-FROM base AS runner
+FROM debian:bookworm AS runner
+
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+      ca-certificates \
+      procps \
+      gnupg \
+      bash \
+      curl \
+      grep \
+      git \
+      nginx
+
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    NODE_MAJOR=20  && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt update && apt install -y nodejs
+
+COPY docker/root-fs /
+COPY --from=setup /root-outputs /
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /app
 
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends nginx
-
 COPY --from=installer /app .
 COPY --from=installer /app/apps/client/dist /usr/share/nginx/html
-COPY docker/nginx.conf /etc/nginx/nginx.conf
 
-CMD nginx && yarn start
+RUN addgroup --system --gid 1000 dload
+RUN adduser --system --uid 1000 dload
+
+ENTRYPOINT [ "/init" ]
