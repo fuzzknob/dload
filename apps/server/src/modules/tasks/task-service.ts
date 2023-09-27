@@ -20,6 +20,7 @@ import { Task, TaskType } from '@dload/shared'
 import * as logger from '@/libs/logger'
 
 import * as taskStore from './task-store'
+import * as settingStore from '@/modules/settings/setting-store'
 
 export function initialize() {
   // aria2.addListener('aria2.onDownloadStart')
@@ -137,11 +138,29 @@ async function fetchAndUpdateAriaTasks() {
   })
 }
 
+function processQueue() {
+  const allTasks = Object.values(taskStore.allTasks())
+  const activeTasks = allTasks.filter((task) => task.type === 'DOWNLOAD')
+  const maximumActiveDownloads =
+    settingStore.getSettings().maximumActiveDownloads
+  if (activeTasks.length >= maximumActiveDownloads) {
+    return
+  }
+  const nextInQueue = allTasks.find((task) => task.type === 'QUEUE')
+  if (!nextInQueue) return
+  const task: Task = {
+    ...nextInQueue,
+    type: 'DOWNLOAD',
+  }
+  taskStore.upsertTask(task)
+  startDownload(task)
+}
+
 async function watcher() {
   while (true) {
     await fetchAndUpdateAriaTasks()
     updateClientTasks()
-    // queue code here
+    processQueue()
     await wait(500)
   }
 }

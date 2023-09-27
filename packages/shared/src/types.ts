@@ -20,4 +20,5 @@ export interface Task {
 
 export interface Settings {
   downloadPaths: string[]
+  maximumActiveDownloads: number
 }

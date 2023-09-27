@@ -6,6 +6,7 @@ import { waitToInitialize } from '@/libs/waitToInitialize'
 
 const DEFAULT_SETTINGS: Settings = {
   downloadPaths: ['/downloads'],
+  maximumActiveDownloads: 2,
 }
 
 const store = new Store<Settings>({
@@ -28,4 +29,9 @@ waitToInitialize(() => {
   if (!store.get()) {
     store.set(DEFAULT_SETTINGS)
   }
+  const settings = store.get()
+  store.set({
+    ...DEFAULT_SETTINGS,
+    ...settings,
+  })
 })
