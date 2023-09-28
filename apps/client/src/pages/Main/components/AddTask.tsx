@@ -85,7 +85,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
       withCloseButton={false}
     >
       <Box
-        sx={{
+        style={{
           padding: '10px 5px',
         }}
       >
@@ -106,7 +106,7 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
             onChange={(event) => setDirectDownload(event.currentTarget.checked)}
           />
           <Space h="xl" />
-          <Group position="apart">
+          <Group justify="space-between">
             <Button onClick={close} variant="subtle" color="gray">
               Cancel
             </Button>

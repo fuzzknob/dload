@@ -8,7 +8,7 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <Container
-      sx={{
+      style={{
         paddingTop: '80px',
         paddingBottom: '80px',
       }}

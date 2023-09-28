@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { IoAddOutline, IoSettingsOutline } from 'react-icons/io5'
 import { Space, Group, Box, Title, Text, ActionIcon } from '@mantine/core'
+import { IoAddOutline, IoSettingsOutline } from 'react-icons/io5'
 import { useHotkeys } from '@mantine/hooks'
 
 import MainLayout from '@/layouts/MainLayout'
@@ -8,9 +8,11 @@ import { useTaskStore } from '@/modules/tasks/task-store'
 
 import Task from './components/Task'
 import AddTask from './components/AddTask'
+import { useColorScheme } from '@/hooks/useColorScheme'
 
 const Main: React.FC = () => {
   const [isTaskVisible, setTaskVisible] = useState(false)
+  const colorScheme = useColorScheme()
   const tasks = useTaskStore((state) => state.tasks)
   const activeTasks = tasks.filter((task) =>
     ['DOWNLOAD', 'COPY'].includes(task.type),
@@ -22,7 +24,7 @@ const Main: React.FC = () => {
   return (
     <MainLayout>
       <AddTask visible={isTaskVisible} onClose={() => setTaskVisible(false)} />
-      <Group position="apart">
+      <Group justify="space-between">
         <ActionIcon
           size="lg"
           variant="light"
@@ -57,16 +59,13 @@ const Main: React.FC = () => {
         </>
       ) : (
         <Box
-          sx={(theme) => ({
+          bg={colorScheme === 'dark' ? 'gray.5' : 'gray.1'}
+          style={{
             padding: '50px 20px',
             borderRadius: '10px',
-            backgroundColor:
-              theme.colorScheme === 'dark'
-                ? theme.colors.dark[5]
-                : theme.colors.gray[1],
-          })}
+          }}
         >
-          <Text align="center">No tasks in hand</Text>
+          <Text ta="center">No tasks in hand</Text>
         </Box>
       )}
     </MainLayout>

@@ -2,12 +2,13 @@ import React from 'react'
 import { IoArrowDownOutline } from 'react-icons/io5'
 import { Box, Space, Text, Progress, Group } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import copyToClipboard from 'copy-to-clipboard'
 import { Task } from '@dload/shared'
+import copyToClipboard from 'copy-to-clipboard'
 
 import * as taskService from '@/modules/tasks/task-service'
 
 import Actions from './TaskActions'
+import { useColorScheme } from '@/hooks/useColorScheme'
 
 interface TaskProps {
   task: Task
@@ -15,6 +16,7 @@ interface TaskProps {
 
 const TaskComponent: React.FC<TaskProps> = ({ task }) => {
   const { type } = task
+  const colorScheme = useColorScheme()
 
   function copyDownloadLink() {
     copyToClipboard(task.url)
@@ -33,21 +35,18 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
 
   return (
     <Box
-      sx={(theme) => ({
+      bg={colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+      style={{
         padding: '15px 20px',
         marginBottom: '15px',
         borderRadius: '10px',
-        backgroundColor:
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : theme.colors.gray[1],
-      })}
+      }}
     >
-      <Group position="apart" align="center">
+      <Group justify="space-between" align="center">
         <div>
           <Text size="md">{task.name}</Text>
           {type === 'QUEUE' && (
-            <Text size="xs" color="dimmed" italic>
+            <Text size="xs" c="dimmed" fs="italic">
               {task.url}
             </Text>
           )}
@@ -62,7 +61,7 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
       {['COPY', 'DOWNLOAD'].includes(type) && (
         <>
           <Space h="xs" />
-          <Text size="xs" color="dimmed" weight={300} italic>
+          <Text size="xs" c="dimmed" fw={300} fs="italic">
             {type === 'COPY' ? 'Copying...' : 'Downloading...'}
           </Text>
           <Space h={5} />
@@ -71,7 +70,7 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
             color={type === 'DOWNLOAD' ? 'blue' : 'green'}
           />
           <Space h="sm" />
-          <Group position="apart">
+          <Group justify="space-between">
             {task.downloaded && task.totalSize && (
               <Text size="xs">
                 {task.downloaded} / {task.totalSize}
@@ -80,7 +79,7 @@ const TaskComponent: React.FC<TaskProps> = ({ task }) => {
             {['IN_PROGRESS'].includes(task.status) && (
               <Group>
                 {type === 'DOWNLOAD' && (
-                  <Group spacing={0}>
+                  <Group gap={0}>
                     {task.downloadSpeed && (
                       <>
                         <IoArrowDownOutline />

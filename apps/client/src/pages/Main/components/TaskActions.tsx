@@ -32,11 +32,11 @@ const TaskActions: React.FC<TaskActionsProps> = ({
 }) => {
   const actions = ACTION_MAP[task.type]
   return (
-    <Group spacing="xs">
+    <Group gap="xs">
       {actions.map((action, index) => (
         <div key={`${action}${index}`}>
           {action === 'PAUSE' && (
-            <ActionIcon onClick={togglePause}>
+            <ActionIcon variant="subtle" onClick={togglePause}>
               {task.status === 'PAUSED' ? (
                 <IoPlayOutline size={16} />
               ) : (
@@ -45,17 +45,17 @@ const TaskActions: React.FC<TaskActionsProps> = ({
             </ActionIcon>
           )}
           {action === 'COPY_LINK' && (
-            <ActionIcon onClick={copyDownloadLink}>
+            <ActionIcon variant="subtle" onClick={copyDownloadLink}>
               <IoLinkOutline size={18} />
             </ActionIcon>
           )}
           {action === 'EDIT' && (
-            <ActionIcon>
+            <ActionIcon variant="subtle">
               <IoCreateOutline size={18} />
             </ActionIcon>
           )}
           {action === 'REMOVE' && (
-            <ActionIcon onClick={removeTask}>
+            <ActionIcon variant="subtle" onClick={removeTask}>
               <IoCloseOutline size={20} />
             </ActionIcon>
           )}

@@ -7,6 +7,7 @@ export const useSettingStore = create<{
 }>((set) => ({
   settings: {
     downloadPaths: [],
+    maximumActiveDownloads: 2,
   },
   setSettings: (newSettings) => set(() => ({ settings: newSettings })),
 }))
