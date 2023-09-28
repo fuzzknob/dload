@@ -59,7 +59,7 @@ const Main: React.FC = () => {
         </>
       ) : (
         <Box
-          bg={colorScheme === 'dark' ? 'gray.5' : 'gray.1'}
+          bg={colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           style={{
             padding: '50px 20px',
             borderRadius: '10px',
