@@ -3,18 +3,17 @@ import { Group, ActionIcon } from '@mantine/core'
 import {
   IoPauseOutline,
   IoLinkOutline,
-  IoCreateOutline,
   IoCloseOutline,
   IoPlayOutline,
 } from 'react-icons/io5'
 import { Task, TaskType } from '@dload/shared'
 
-type ActionType = 'PAUSE' | 'COPY_LINK' | 'EDIT' | 'REMOVE'
+type ActionType = 'PAUSE' | 'COPY_LINK' | 'REMOVE'
 
 const ACTION_MAP: Record<TaskType, ActionType[]> = {
   DOWNLOAD: ['PAUSE', 'COPY_LINK', 'REMOVE'],
   COPY: ['COPY_LINK', 'REMOVE'],
-  QUEUE: ['EDIT', 'COPY_LINK', 'REMOVE'],
+  QUEUE: ['COPY_LINK', 'REMOVE'],
 }
 
 interface TaskActionsProps {
@@ -47,11 +46,6 @@ const TaskActions: React.FC<TaskActionsProps> = ({
           {action === 'COPY_LINK' && (
             <ActionIcon variant="subtle" onClick={copyDownloadLink}>
               <IoLinkOutline size={18} />
-            </ActionIcon>
-          )}
-          {action === 'EDIT' && (
-            <ActionIcon variant="subtle">
-              <IoCreateOutline size={18} />
             </ActionIcon>
           )}
           {action === 'REMOVE' && (
