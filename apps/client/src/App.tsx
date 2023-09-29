@@ -1,5 +1,6 @@
 import React from 'react'
 import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css'
 import { MantineProvider } from '@mantine/core'
 import { ModalsProvider } from '@mantine/modals'
 
@@ -14,14 +15,14 @@ const App: React.FC = () => {
     <SettingProvider>
       <TaskProvider>
         <MantineProvider>
-          <ModalsProvider
-            labels={{ confirm: 'Confirm', cancel: 'Cancel' }}
-            modalProps={{ centered: true }}
-          >
-            <NotificationProvider>
+          <NotificationProvider>
+            <ModalsProvider
+              labels={{ confirm: 'Confirm', cancel: 'Cancel' }}
+              modalProps={{ centered: true }}
+            >
               <Main />
-            </NotificationProvider>
-          </ModalsProvider>
+            </ModalsProvider>
+          </NotificationProvider>
         </MantineProvider>
       </TaskProvider>
     </SettingProvider>
