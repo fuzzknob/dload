@@ -8,10 +8,12 @@ import { useTaskStore } from '@/modules/tasks/task-store'
 
 import Task from './components/Task'
 import AddTask from './components/AddTask'
+import Settings from './components/Settings'
 import { useColorScheme } from '@/hooks/useColorScheme'
 
 const Main: React.FC = () => {
   const [isTaskVisible, setTaskVisible] = useState(false)
+  const [isSettingsVisible, setSettingVisible] = useState(false)
   const colorScheme = useColorScheme()
   const tasks = useTaskStore((state) => state.tasks)
   const activeTasks = tasks.filter((task) =>
@@ -24,6 +26,10 @@ const Main: React.FC = () => {
   return (
     <MainLayout>
       <AddTask visible={isTaskVisible} onClose={() => setTaskVisible(false)} />
+      <Settings
+        visible={isSettingsVisible}
+        onClose={() => setSettingVisible(false)}
+      />
       <Group justify="space-between">
         <ActionIcon
           size="lg"
@@ -32,7 +38,11 @@ const Main: React.FC = () => {
         >
           <IoAddOutline size={20} />
         </ActionIcon>
-        <ActionIcon size="lg" variant="light">
+        <ActionIcon
+          size="lg"
+          variant="light"
+          onClick={() => setSettingVisible(true)}
+        >
           <IoSettingsOutline size={20} />
         </ActionIcon>
       </Group>

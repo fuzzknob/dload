@@ -20,7 +20,7 @@ export function getSettings() {
 
 export function setSettings(update: Partial<Settings>) {
   return store.safeSet((settings) => ({
-    settings,
+    ...settings,
     ...update,
   }))
 }
