@@ -111,13 +111,13 @@ const Settings: React.FC<SettingsProps> = ({ visible, onClose }) => {
           <Space h="sm" />
           <NumberInput
             label="Maximum Active Downloads"
+            description="Queue tasks only starts downloading once the active download is below this number"
             {...form.getInputProps('maximumActiveDownloads')}
           />
           <Space h="xl" />
-
           <Group justify="space-between">
             <Button onClick={close} variant="subtle" color="gray">
-              Cancel
+              Close
             </Button>
             <Button loading={isSubmitting} type="submit">
               Save
