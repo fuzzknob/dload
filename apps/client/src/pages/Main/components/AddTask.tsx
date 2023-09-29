@@ -6,7 +6,6 @@ import {
   Textarea,
   Space,
   Select,
-  Switch,
   Group,
   Button,
 } from '@mantine/core'
@@ -100,11 +99,11 @@ const AddTask: React.FC<AddTaskProps> = ({ visible, onClose }) => {
             {...form.getInputProps('downloadPath')}
           />
           <Space h="xl" />
-          <Switch
+          {/* <Switch
             label="Direct Download"
             checked={directDownload}
             onChange={(event) => setDirectDownload(event.currentTarget.checked)}
-          />
+          /> */}
           <Space h="xl" />
           <Group justify="space-between">
             <Button onClick={close} variant="subtle" color="gray">
