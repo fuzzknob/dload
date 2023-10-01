@@ -15,6 +15,7 @@
     }
   },
   "forwardPorts": [8080],
+  "postAttachCommand": "nginx",
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
