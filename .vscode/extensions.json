@@ -11,6 +11,8 @@
     "visualstudioexptteam.vscodeintellicode",
     "visualstudioexptteam.intellicode-api-usage-examples",
     "ms-vscode-remote.remote-containers",
-    "aaron-bond.better-comments"
+    "aaron-bond.better-comments",
+    "streetsidesoftware.code-spell-checker",
+    "github.vscode-github-actions"
   ]
 }
