@@ -4,6 +4,7 @@ import {
   bytesToSize,
   suppressError,
   formatRemainingTime,
+  getFileExtension,
 } from '@/libs/utils'
 import aria2, { AriaAdapter } from '@/libs/aria2'
 import { io } from '@/libs/socket'
@@ -57,14 +58,11 @@ export async function getDetails(url: string) {
     const name = path.substring(path.lastIndexOf('/') + 1)
     await cleanDownload(path)
     return {
-      name,
-      extension:
-        name.lastIndexOf('.') > 0
-          ? name.substring(name.lastIndexOf('.') + 1)
-          : '',
+      fullName: name,
+      extension: getFileExtension(name),
     }
   }
-  return { name: 'file', extension: '' }
+  return { fullName: 'file', extension: '' }
 }
 
 export function getTaskStatus(status: AriaAdapter.EAria2DownloadState) {

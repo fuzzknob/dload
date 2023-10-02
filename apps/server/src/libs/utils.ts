@@ -88,6 +88,12 @@ export function generateUuid() {
   return uuidv4()
 }
 
+export function getFileExtension(name: string) {
+  return name.lastIndexOf('.') > 0
+    ? name.substring(name.lastIndexOf('.') + 1)
+    : ''
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function logErrorAndRethrow(e: any) {
   logger.error(e)

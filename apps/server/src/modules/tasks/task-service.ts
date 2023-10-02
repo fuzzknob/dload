@@ -4,6 +4,7 @@ import {
   calculatePercentage,
   wait,
   generateUuid,
+  getFileExtension,
 } from '@/libs/utils'
 import {
   getDetails,
@@ -42,11 +43,17 @@ interface TaskPayload {
 }
 
 export async function addTask(payload: TaskPayload) {
-  const detail = await getDetails(payload.url)
+  let name = payload.name
+  let fileExtension = getFileExtension(name)
+  if (!name || !fileExtension) {
+    const details = await getDetails(payload.url)
+    fileExtension = details.extension
+    name = name ? `${name}.${fileExtension}` : details.fullName
+  }
   const task: Task = {
     id: generateUuid(),
-    name: payload.name ? `${payload.name}.${detail.extension}` : detail.name,
-    fileExtension: detail.extension,
+    name,
+    fileExtension,
     url: payload.url,
     type: payload.type,
     downloadPath: payload.downloadPath,
