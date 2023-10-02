@@ -1,6 +1,9 @@
-# Dload (Containerized Download Manager)
+<div align="center">
+  <img src="screenshots/Dload.png" width="100">
+  <h1>Dload (Containerized Download Manager)</h1> 
+</div>
 
-Dload, A download manager that runs inside docker container
+Dload, A download manager that runs inside a docker container
 
 # Quick Setup
 
@@ -74,8 +77,8 @@ To run it locally you will need to have the following tools:
 
 But before we run the app we need to change somethings:
 
-1. Change the url at https://github.com/fuzzknob/dload/blob/main/apps/client/src/libs/request.ts#L4 to http://localhost:8000 and add https://github.com/fuzzknob/dload/blob/main/apps/client/src/libs/socket.ts#L3 to ws://localhost:8000
-2. Replace https://github.com/fuzzknob/dload/blob/main/apps/server/src/libs/socket.ts#L3 with
+1. Change the url at [client/request.ts:L4](https://github.com/fuzzknob/dload/blob/main/apps/client/src/libs/request.ts#L4) to http://localhost:8000 and add ws://localhost:8000 at [client/socket.ts:L3](https://github.com/fuzzknob/dload/blob/main/apps/client/src/libs/socket.ts#L3)
+2. Replace line at [server/socket.ts:L3](https://github.com/fuzzknob/dload/blob/main/apps/server/src/libs/socket.ts#L3) with
 
 ```ts
 export const io = new Server({
