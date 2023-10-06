@@ -52,7 +52,12 @@ export function calculatePercentage(
 }
 
 export async function removeFile(path: string) {
-  return suppressError(fs.remove(path))
+  try {
+    await fs.ensureFile(path)
+    await fs.remove(path)
+  } catch (e) {
+    return
+  }
 }
 
 export function wait(time: number) {
