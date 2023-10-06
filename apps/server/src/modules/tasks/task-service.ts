@@ -90,6 +90,7 @@ async function onDownloadError(gid: string) {
   if (!task) return
   notify({
     code: 'DOWNLOAD_ERROR',
+    type: 'ERROR',
     message: `There was an error while downloading ${task.name}`,
   })
   await removeDownload(task) // todo: work on a retry code
