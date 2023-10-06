@@ -5,3 +5,4 @@ mkdir -p /config
 
 chown -R dload:dload /app
 chown -R dload:dload /config
+chown -R dload:dload /downloads

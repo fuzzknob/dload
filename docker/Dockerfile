@@ -68,5 +68,6 @@ COPY --from=installer /app/apps/client/dist /usr/share/nginx/html
 
 RUN addgroup --system --gid 1000 dload
 RUN adduser --system --uid 1000 dload
+RUN usermod -g dload dload
 
 ENTRYPOINT [ "/init" ]
