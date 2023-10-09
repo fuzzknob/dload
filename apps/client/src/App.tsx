@@ -14,7 +14,7 @@ const App: React.FC = () => {
   return (
     <SettingProvider>
       <TaskProvider>
-        <MantineProvider>
+        <MantineProvider defaultColorScheme="auto">
           <NotificationProvider>
             <ModalsProvider
               labels={{ confirm: 'Confirm', cancel: 'Cancel' }}
