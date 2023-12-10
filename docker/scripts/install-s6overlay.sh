@@ -6,9 +6,9 @@ S6_OVERLAY_VERSION=3.1.5.0
 S6_OVERLAY_ARCH=x86_64
 
 if [ $TARGETPLATFORM = "linux/arm64" ]; then
-	ARCH=aarch64
+	S6_OVERLAY_ARCH=aarch64
 elif [ $TARGETPLATFORM = "linux/amd64" ]; then
-	ARCH=x86_64
+	S6_OVERLAY_ARCH=x86_64
 else
   echo "$TARGETPLATFORM PLATFORM NOT SUPPORTED"
   exit 1
